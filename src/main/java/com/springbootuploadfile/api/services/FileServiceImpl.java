@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -15,9 +16,12 @@ public class FileServiceImpl implements FileService {
         //file name
         String filename = file.getOriginalFilename();
 
+        //file name change
+        String random = UUID.randomUUID().toString();
+        String name = random.concat(filename.substring(filename.lastIndexOf(".")));
 
         //full path
-        String filePath = path + File.separator + filename;
+        String filePath = path + File.separator + name;
 
         //create folder if not exist
         File f = new File(path);
@@ -33,7 +37,6 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public InputStream getResource(String path, String fileName) throws FileNotFoundException {
-
         String fullPath = path + File.separator + fileName;
         InputStream inputStream = new FileInputStream(fullPath);
 
